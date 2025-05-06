@@ -1,4 +1,4 @@
-# Zadanie 1 (część dodatkowa) – Aneliia Henina  
+# Zadanie 1 (2. (max. +50%) część dodatkowa) – Aneliia Henina  
 Grupa: IO 6.4  
 Data: 06.05.2025  
 
