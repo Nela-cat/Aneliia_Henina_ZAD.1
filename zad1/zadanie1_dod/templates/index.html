@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<!-- templates/index.html -->
+<!-- Zadanie 1.1 - Aplikacje w chmurze -->
+<!-- Autor: Aneliia Henina -->
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>WeatherApp - Zadanie 1.1</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>🌍 WeatherApp</h1>
+        <p>Sprawdź aktualną pogodę w wybranym mieście! (Zadanie 1.1)</p>
+        <form method="post" action="/weather">
+            <label for="country">Kraj:</label>
+            <select name="country" id="country" onchange="updateCities()">
+                <option value="">Wybierz kraj</option>
+                {% for country in countries %}
+                <option value="{{ country }}">{{ country }}</option>
+                {% endfor %}
+            </select>
+            <label for="city">Miasto:</label>
+            <select name="city" id="city">
+                <option value="">Wybierz miasto</option>
+            </select>
+            <button type="submit">Sprawdź pogodę</button>
+        </form>
+        {% if weather %}
+        <div class="weather-result">
+            {% if weather.error %}
+            <p class="error">{{ weather.error }}</p>
+            {% else %}
+            <h2>Pogoda w {{ weather.city }}, {{ weather.country }}</h2>
+            <p>Temperatura: {{ weather.temperature }}°C</p>
+            <p>Opis: {{ weather.description }}</p>
+            <p>Wilgotność: {{ weather.humidity }}%</p>
+            <p>Prędkość wiatru: {{ weather.wind_speed }} m/s</p>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+    <script>
+       
+        
+        console.log("Countries from template:", {{ countries | tojson | safe }});
+        const cityLocations = {
+            {% for country in countries %}
+            "{{ country }}": {{ locations.get_cities(country) | tojson | safe }}{% if not loop.last %},{% endif %}
+            {% endfor %}
+        };
+        console.log("Generated cityLocations:", cityLocations);
+
+        function updateCities() {
+            const countrySelect = document.getElementById("country");
+            const citySelect = document.getElementById("city");
+            const selectedCountry = countrySelect.value;
+
+            
+            citySelect.innerHTML = '<option value="">Wybierz miasto</option>';
+
+            
+            if (selectedCountry && cityLocations[selectedCountry]) {
+                cityLocations[selectedCountry].forEach(city => {
+                    const option = document.createElement("option");
+                    option.value = city;
+                    option.textContent = city;
+                    citySelect.appendChild(option);
+                });
+            } else {
+                console.log("No cities for:", selectedCountry);
+            }
+        }
+    </script>
+</body>
+</html>
