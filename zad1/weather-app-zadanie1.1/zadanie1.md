@@ -21,7 +21,6 @@ Plik `Dockerfile` został zoptymalizowany zgodnie z wymaganiami zadania:
 - **Minimalizacja warstw**: Instalacja `curl` i czyszczenie keszu APT w одной komendzie.
 - **HEALTHCHECK**: Sprawdzanie stanu kontenera za pomocą `curl -f http://localhost:8000` z 3 próbami.
 - **Metadane OCI**: Dodano etykiety `LABEL` z informacjami o autorze, tytule, opisie i wersji obrazu.
-- **Bezpieczeństwo**: Plik `.env` wykluczono z obrazu za pomocą `.dockerignore`.
 - **Rozmiar obrazu**: ~163MB, dzięki użyciu `python:3.10-slim`.
 
 
